@@ -1,16 +1,11 @@
-# 👩‍🎨 Paint by Text
+# Star Trek Adventure
 
-Modify images by chatting with a generative AI model.
-
-Try it out at [paintbytext.chat](http://paintbytext.chat)
 
 ## How it works
 
 This app is powered by:
 
 🚀 [Replicate](https://replicate.com/?utm_source=project&utm_campaign=paintbytext), a platform for running machine learning models in the cloud.
-
-🎨 [InstructPix2Pix](https://replicate.com/timothybrooks/instruct-pix2pix?utm_source=project&utm_campaign=paintbytext), an open-source machine learning model that generates images from text.
 
 ▲ [Vercel](https://vercel.com/), a platform for running web apps.
 
@@ -19,7 +14,6 @@ This app is powered by:
 👀 Next.js React components, for the browser UI.
 
 🍃 [Tailwind CSS](https://tailwindcss.com/), for styles.
-
 
 ## Development
 

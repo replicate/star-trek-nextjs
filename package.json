@@ -1,6 +1,6 @@
 {
-  "name": "paint-by-text",
-  "description": "Modify images by chatting with a generative AI model.",
+  "name": "star-trek-adventure",
+  "description": "A choose your own adventure game powered by a fine-tuned LLM",
   "version": "1.0.0",
   "private": true,
   "scripts": {
