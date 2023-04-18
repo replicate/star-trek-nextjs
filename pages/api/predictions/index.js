@@ -16,7 +16,8 @@ export default async function handler(req, res) {
   const body = JSON.stringify({
     version: "2014ee1247354f2e81c0b3650d71ca715bc1e610189855f134c30ecb841fae21",
     input: {
-      prompt: 'Simply put, the theory of relativity states that'
+      max_length: 100,
+      prompt: req.body.prompt,
     }
   });
 

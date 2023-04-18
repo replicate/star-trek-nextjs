@@ -8,7 +8,7 @@ import Footer from "components/footer";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const appName = "Star Trek Adventure";
-export const appSubtitle = "A choose your own adventure game powered by a fine-tuned large language model";
+export const appSubtitle = "A choose your own adventure game";
 export const appMetaDescription = "Play a Star Trek choose your own adventure game, with the help of an AI.";
 
 export default function Home() {

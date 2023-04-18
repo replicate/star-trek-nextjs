@@ -16,19 +16,9 @@ export default function Messages({ events, isProcessing, onUndo }) {
       {events.map((ev, index) => {
         if (ev.replicate) {
           return (
-            <Fragment key={"replicate-" + index}>
-              <Message sender="replicate" isSameSender>
-                {ev.replicate.output}
-              </Message>
-
-              {(isProcessing || index < events.length - 1) && (
-                <Message sender="replicate" isSameSender>
-                  {index === 0
-                    ? "What should we change?"
-                    : "What should we change now?"}
-                </Message>
-              )}
-            </Fragment>
+            <Message key={"replicate-" + index} sender="replicate" isSameSender>
+              {ev.replicate.output}
+            </Message>
           );
         }
 

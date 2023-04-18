@@ -25,22 +25,17 @@ export default function PromptForm({
 
   return (
     <form onSubmit={handleSubmit} className="animate-in fade-in duration-700">
-      <Message sender="replicate" isSameSender>
-        <label htmlFor="prompt-input">
-          {isFirstPrompt
-            ? "What should we change?"
-            : "What should we change now?"}
-        </label>
-      </Message>
+      <label htmlFor="prompt-input" className="font-bold">
+        What happens next?
+      </label>
 
-      <div className="flex mt-8">
+      <div className="flex mt-2">
         <input
           id="prompt-input"
           type="text"
           name="prompt"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Your message..."
           className={`block w-full flex-grow${
             disabled ? " rounded-md" : " rounded-l-md"
           }`}
@@ -52,7 +47,7 @@ export default function PromptForm({
             className="bg-black text-white rounded-r-md text-small inline-block p-3 flex-none"
             type="submit"
           >
-            Paint
+            Continue story
           </button>
         )}
       </div>
