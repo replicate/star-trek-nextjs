@@ -58,6 +58,12 @@ export default function Home() {
         return;
       }
 
+      setEvents(
+        myEvents.concat([
+          { replicate: prediction },
+        ])
+      )
+
       setPredictions(predictions.concat([prediction]));
     }
 

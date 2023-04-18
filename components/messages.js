@@ -13,8 +13,13 @@ export default function Messages({ events, isProcessing, onUndo }) {
 
   return (
     <section className="w-full">
+      <Message sender="replicate" isSameSender>
+        <p>Scene:</p>
+        <p>Captains log, Stardate 31547.1. My ship has encountered a new lifeform that is capable of shapeshifting into the likeness of any person or thing it chooses to mimic. This may have great potential for interstellar exploration and I shall record this in my captains log. In doing so, I will be making some decisions which affect many lives including those of my crew members who are family members with children.</p>
+      </Message>
+
       {events.map((ev, index) => {
-        if (ev.replicate) {
+        if (ev.replicate && ev.replicate.output && ev.replicate.output.length > 0) {
           return (
             <Message key={"replicate-" + index} sender="replicate" isSameSender>
               {ev.replicate.output}

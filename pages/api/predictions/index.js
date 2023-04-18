@@ -13,11 +13,27 @@ export default async function handler(req, res) {
     {}
   );
 
+  const getPrompt = (req) => {
+    const prompt = `
+Scene:
+
+Captains log, Stardate 31547.1. My ship has encountered a new lifeform that is capable of shapeshifting into the likeness of any person or thing it chooses to mimic. This may have great potential for interstellar exploration and I shall record this in my captains log. In doing so, I will be making some decisions which affect many lives including those of my crew members who are family members with children.
+
+Picard’s action: ${req.body.prompt}
+    `
+
+    return prompt;
+  }
+
   const body = JSON.stringify({
-    version: "2014ee1247354f2e81c0b3650d71ca715bc1e610189855f134c30ecb841fae21",
+    version: "af6aeca95b3448bdd320fef895082fb310979b2d605c7db8160d7ca9760822d9",
     input: {
-      max_length: 100,
-      prompt: req.body.prompt,
+      max_length: 500,
+      decoding: "top_p",
+      temperature: 0.75,
+      top_p: 1,
+      repetition_penalty: 1.2,
+      prompt: getPrompt(req),
     }
   });
 

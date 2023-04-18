@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import Message from "./message";
 
 export default function PromptForm({
   initialPrompt,
-  isFirstPrompt,
   onSubmit,
   disabled = false,
 }) {
@@ -24,9 +22,9 @@ export default function PromptForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="animate-in fade-in duration-700">
+    <form onSubmit={handleSubmit} className="mt-8 animate-in fade-in duration-700">
       <label htmlFor="prompt-input" className="font-bold">
-        What happens next?
+        What does Jean Luc Picard do next?
       </label>
 
       <div className="flex mt-2">
