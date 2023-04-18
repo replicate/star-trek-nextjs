@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   if (!process.env.REPLICATE_API_TOKEN) {
     throw new Error("The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it.");
   }
-  
+
   // remnove null and undefined values
   req.body = Object.entries(req.body).reduce(
     (a, [k, v]) => (v == null ? a : ((a[k] = v), a)),
@@ -14,9 +14,10 @@ export default async function handler(req, res) {
   );
 
   const body = JSON.stringify({
-    // https://replicate.com/timothybrooks/instruct-pix2pix/versions
-    version: "30c1d0b916a6f8efce20493f5d61ee27491ab2a60437c13c588468b9810ec23f",
-    input: req.body,
+    version: "2014ee1247354f2e81c0b3650d71ca715bc1e610189855f134c30ecb841fae21",
+    input: {
+      prompt: 'Simply put, the theory of relativity states that'
+    }
   });
 
   const headers = {
@@ -40,6 +41,7 @@ export default async function handler(req, res) {
 
   const prediction = await response.json();
   res.statusCode = 201;
+
   res.end(JSON.stringify(prediction));
 }
 

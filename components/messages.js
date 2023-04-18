@@ -1,5 +1,3 @@
-import { RotateCcw as UndoIcon } from "lucide-react";
-import Image from "next/future/image";
 import { Fragment, useEffect, useRef } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 import Message from "./message";
@@ -16,23 +14,11 @@ export default function Messages({ events, isProcessing, onUndo }) {
   return (
     <section className="w-full">
       {events.map((ev, index) => {
-        if (ev.image) {
+        if (ev.replicate) {
           return (
-            <Fragment key={"image-" + index}>
-              <Message sender="replicate" shouldFillWidth>
-                {onUndo && index > 0 && index === events.length - 1 && (
-                  <div className="mt-2 text-right">
-                    <button
-                      className="lil-button"
-                      onClick={() => {
-                        onUndo(index);
-                      }}
-                    >
-                      <UndoIcon className="icon" /> Undo and try a different
-                      change
-                    </button>
-                  </div>
-                )}
+            <Fragment key={"replicate-" + index}>
+              <Message sender="replicate" isSameSender>
+                {ev.replicate.output}
               </Message>
 
               {(isProcessing || index < events.length - 1) && (

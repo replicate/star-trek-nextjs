@@ -61,6 +61,14 @@ export default function Home() {
       setPredictions(predictions.concat([prediction]));
     }
 
+    if (prediction.status === "succeeded") {
+      setEvents(
+        myEvents.concat([
+          { replicate: prediction },
+        ])
+      );
+    }
+
     setIsProcessing(false);
   };
 
