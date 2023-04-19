@@ -12,17 +12,7 @@ export const appMetaDescription = "Play a Star Trek choose your own adventure ga
 
 export default function Home() {
   const [initialPrompt, setInitialPrompt] = useState("");
-  const { handleSubmit, events, predictions, error, isProcessing } = useSubmitHandler();
-
-  const apiCall = async (body) => {
-    return await fetch("/api/predictions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-  };
+  const { handleSubmit, events, error, isProcessing } = useSubmitHandler();
 
   // const startOver = async (e) => {
   //   e.preventDefault();
@@ -60,7 +50,7 @@ export default function Home() {
         <PromptForm
           initialPrompt={initialPrompt}
           isFirstPrompt={events.length === 0}
-          onSubmit={(e) => handleSubmit(e, apiCall)}
+          onSubmit={(e) => handleSubmit(e, { prompt: e.target.prompt.value })}
           disabled={isProcessing}
         />
 

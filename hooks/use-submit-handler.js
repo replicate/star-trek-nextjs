@@ -8,20 +8,22 @@ const useSubmitHandler = () => {
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleSubmit = async (e, apiCall) => {
+  const handleSubmit = async (e, body) => {
     e.preventDefault();
-
-    const prompt = e.target.prompt.value;
-
     setError(null);
     setIsProcessing(true);
 
-    const myEvents = [...events, { prompt }];
+    const myEvents = [...events, { body }];
     setEvents(myEvents);
 
-    const body = { prompt };
+    const response = await fetch("/api/predictions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
-    const response = await apiCall(body);
     const prediction = await response.json();
 
     if (response.status !== 201) {
