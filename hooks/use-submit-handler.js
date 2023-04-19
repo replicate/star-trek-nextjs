@@ -24,11 +24,6 @@ const useSubmitHandler = () => {
     const myEvents = [...events, { body }];
     setEvents(myEvents);
 
-    // if body is longer than 500 characters, take only the last 500 characters
-    if (body.length > 500) {
-      body = body.slice(-500);
-    }
-
     const response = await fetch("/api/predictions", {
       method: "POST",
       headers: {
@@ -46,12 +41,11 @@ const useSubmitHandler = () => {
 
     let haveDescriptionAndOptions = false
     while (
-      prediction.status !== "succeeded" &&
-      prediction.status !== "failed" &&
+      ["succeeded", "failed", "cancelled"].indexOf(prediction.status) === -1 &&
       !haveDescriptionAndOptions
     ) {
       await sleep(500);
-      const response = await fetch("/api/predictions/" + prediction.id);
+      const response = await fetch(`/api/predictions/${prediction.id}`);
       prediction = await response.json();
       if (response.status !== 200) {
         setError(prediction.detail);

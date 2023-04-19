@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   const body = JSON.stringify({
     version: "bb5c6d426fabd3736faf7243ea70d2cdbc0f8131b22953386759a9b4d2858aad",
     input: {
-      max_length: 500,
+      max_length: 750,
       decoding: "top_p",
       temperature: 0.75,
       top_p: 1,
