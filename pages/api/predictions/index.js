@@ -26,7 +26,7 @@ Picard’s action: ${req.body.prompt}
   }
 
   const body = JSON.stringify({
-    version: "af6aeca95b3448bdd320fef895082fb310979b2d605c7db8160d7ca9760822d9",
+    version: "bb5c6d426fabd3736faf7243ea70d2cdbc0f8131b22953386759a9b4d2858aad",
     input: {
       max_length: 500,
       decoding: "top_p",
