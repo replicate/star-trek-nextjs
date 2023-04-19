@@ -11,15 +11,14 @@ export const appSubtitle = "A choose your own adventure game";
 export const appMetaDescription = "Play a Star Trek choose your own adventure game, with the help of an AI.";
 
 export default function Home() {
-  const [initialPrompt, setInitialPrompt] = useState("");
-  const { handleSubmit, events, error, isProcessing } = useSubmitHandler();
+  const { handleSubmit, events, setEvents, error, isProcessing, setIsProcessing } = useSubmitHandler();
 
-  // const startOver = async (e) => {
-  //   e.preventDefault();
-  //   setEvents([]);
-  //   setError(null);
-  //   setIsProcessing(false);
-  // };
+  const startOver = async (e) => {
+    e.preventDefault();
+    setEvents([]);
+    setError(null);
+    setIsProcessing(false);
+  };
 
   return (
     <div>
@@ -39,7 +38,9 @@ export default function Home() {
         </hgroup>
 
         <Messages
+          handleSubmit={handleSubmit}
           events={events}
+          setEvents={setEvents}
           isProcessing={isProcessing}
           onUndo={(index) => {
             setInitialPrompt(events[index - 1].prompt);
@@ -47,12 +48,11 @@ export default function Home() {
           }}
         />
 
-        <PromptForm
-          initialPrompt={initialPrompt}
+        {/* <PromptForm
           isFirstPrompt={events.length === 0}
           onSubmit={(e) => handleSubmit(e, { prompt: e.target.prompt.value })}
           disabled={isProcessing}
-        />
+        /> */}
 
         <div className="mx-auto w-full">
           {error && <p className="bold text-red-500 pb-5">{error}</p>}
@@ -60,7 +60,7 @@ export default function Home() {
 
         <Footer
           events={events}
-          // startOver={startOver}
+          startOver={startOver}
         />
       </main>
     </div>

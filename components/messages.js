@@ -1,15 +1,13 @@
 import { Fragment, useEffect, useRef } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
 import Universes from "./universes";
+import Characters from "./characters";
+import Options from "./options";
 import Message from "./message";
+import useSubmitHandler from "hooks/use-submit-handler";
 
-export default function Messages({ events, isProcessing, onUndo }) {
+export default function Messages({ handleSubmit, events, setEvents, isProcessing, onUndo }) {
   const messagesEndRef = useRef(null);
-
-  const handleButtonClick = (value) => {
-    // Process the button value, create a prompt, and call the API
-    console.log('Button clicked:', value);
-  };
 
   useEffect(() => {
     if (events.length > 2) {
@@ -17,38 +15,113 @@ export default function Messages({ events, isProcessing, onUndo }) {
     }
   }, [events.length]);
 
-  return (
-    <section className="w-full">
-      <Universes onButtonClick={handleButtonClick} />
+  useEffect(() => {
+    const lastEvent = events[events.length - 1];
 
-      <Message sender="replicate" isSameSender>
-        <p>Scene:</p>
-        <p>Captains log, Stardate 31547.1. My ship has encountered a new lifeform that is capable of shapeshifting into the likeness of any person or thing it chooses to mimic. This may have great potential for interstellar exploration and I shall record this in my captains log. In doing so, I will be making some decisions which affect many lives including those of my crew members who are family members with children.</p>
+    if (lastEvent && (lastEvent.character || lastEvent.choice)) {
+      handleSubmit(lastEvent.prompt);
+    }
+  }, [events]);
+
+  const handleUniverseSelection = (universe, message) => {
+    setEvents(
+      events.concat([
+        { universe, message },
+      ])
+    )
+  };
+
+  const handleCharacterSelection = (prompt, message, scene) => {
+    setEvents(
+      events.concat([
+        {
+          character: true,
+          prompt,
+          message,
+          scene,
+        },
+      ])
+    );
+  };
+
+  const handleOptionSelection = (prompt, message, scene) => {
+    setEvents(
+      events.concat([
+        {
+          choice: true,
+          prompt,
+          message,
+          scene
+        },
+      ])
+    );
+  };
+
+  return (
+    // add a border to section
+    <section className="w-full border-2 border-gray-400 rounded-lg pt-0 p-2 ">
+      <Message key={"universe-choice"} sender="replicate" isSameSender>
+        <Universes handleSelection={handleUniverseSelection} />
       </Message>
 
       {events.map((ev, index) => {
-        if (ev.replicate && ev.replicate.output && ev.replicate.output.length > 0) {
+        if (ev.universe) {
           return (
-            <Message key={"replicate-" + index} sender="replicate" isSameSender>
-              {ev.replicate.output}
+            <Fragment key={"choose-character-" + index}>
+              <Message key={"universe-" + index} sender="user" isSameSender>
+                {ev.message}
+              </Message>
+              <Message key={"characters-" + index} sender="replicate" isSameSender>
+                <Characters universe={ev.universe} handleSelection={handleCharacterSelection} />
+              </Message>
+            </Fragment>
+          );
+        }
+
+        if (ev.character) {
+          return (
+            <Message key={"character-" + index} sender="user" isSameSender>
+              {ev.message}
             </Message>
           );
         }
 
-        if (ev.prompt) {
+        if (ev.replicate) {
           return (
-            <Message key={"prompt-" + index} sender="user">
-              {ev.prompt}
+            <Fragment key={"replicate-" + index}>
+              <Message sender="replicate" isSameSender>
+                {ev.description ? (
+                  <>
+                    {ev.description}
+                    {ev.options && (
+                      <Options
+                        scene={ev.scene}
+                        description={ev.description}
+                        options={ev.options}
+                        prompt={ev.prompt}
+                        handleSelection={handleOptionSelection}
+                        onUndo={() => onUndo(index)}
+                      />
+                    )}
+                  </>
+                ) : null}
+
+                {isProcessing && (
+                  <PulseLoader color="#999" size={7} />
+                )}
+              </Message>
+            </Fragment>
+          );
+        }
+
+        if (ev.choice) {
+          return (
+            <Message key={"character-" + index} sender="user" isSameSender>
+              {ev.message}
             </Message>
           );
         }
       })}
-
-      {isProcessing && (
-        <Message sender="replicate">
-          <PulseLoader color="#999" size={7} />
-        </Message>
-      )}
 
       <div ref={messagesEndRef} />
     </section>

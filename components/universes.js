@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Universes = ({ onButtonClick }) => {
-  const handleButtonClick = (value) => {
-    onButtonClick(value);
+const Universes = ({ handleSelection }) => {
+  const handleButtonClick = (e, value, name) => {
+    e.preventDefault();
+    const message = `You chose Star Trek: ${name}`;
+    handleSelection(value, message);
   };
 
   const starTrekUniverses = [
@@ -37,16 +39,19 @@ const Universes = ({ onButtonClick }) => {
   ]
 
   return (
-    <div className="button-group flex flex-wrap justify-center">
-      {starTrekUniverses.map((universe) => (
-        <button
-          key={universe.value}
-          onClick={() => handleButtonClick(universe.value)}
-          className="button m-2 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        >
-          {universe.name}
-        </button>
-      ))}
+    <div>
+      <p className="font-bold mb-2">Pick a Star Trek universe</p>
+      <div className="button-group">
+        {starTrekUniverses.map((universe) => (
+          <button
+            key={universe.value}
+            onClick={(e) => handleButtonClick(e, universe.value, universe.name)}
+            className="button mr-2 mt-2 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {universe.name}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
