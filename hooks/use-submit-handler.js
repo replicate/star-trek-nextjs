@@ -24,6 +24,11 @@ const useSubmitHandler = () => {
     const myEvents = [...events, { body }];
     setEvents(myEvents);
 
+    // if body is longer than 500 characters, take only the last 500 characters
+    if (body.length > 500) {
+      body = body.slice(-500);
+    }
+
     const response = await fetch("/api/predictions", {
       method: "POST",
       headers: {

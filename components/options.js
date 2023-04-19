@@ -5,8 +5,7 @@ const Options = ({ options, handleSelection, description, prompt, scene }) => {
     e.preventDefault();
     const message = text;
 
-    prompt = `
-${prompt}</context>
+    prompt = `${prompt}</context>
 <desc>${description}</desc>
 <decision${scene}>
 <options>
@@ -17,13 +16,12 @@ ${prompt}</context>
 </decision${scene}>
 </scene${scene}>
 <scene${scene + 1}>
-<context>`;
+<context>You chose ${text}</context>`;
 
     handleSelection(prompt, message, scene + 1);
   };
 
   return (
-
     <div>
       <p className="font-bold mt-4">What will you do?</p>
       <div className="button-group">

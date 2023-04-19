@@ -42,8 +42,7 @@ const Characters = ({ universe, handleSelection }) => {
     e.preventDefault();
     const message = `You chose to be ${character}`;
 
-    const prompt = `
-<universe>${universe}</universe>
+    const prompt = `<universe>${universe}</universe>
 <start>
 <decision0>
 <options>
