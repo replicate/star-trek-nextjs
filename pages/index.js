@@ -2,88 +2,34 @@ import Messages from "components/messages";
 import PromptForm from "components/prompt-form";
 import Head from "next/head";
 import { useState } from "react";
+import useSubmitHandler from "hooks/use-submit-handler";
 
 import Footer from "components/footer";
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const appName = "Star Trek Adventure";
 export const appSubtitle = "A choose your own adventure game";
 export const appMetaDescription = "Play a Star Trek choose your own adventure game, with the help of an AI.";
 
 export default function Home() {
-  const [events, setEvents] = useState([]);
-  const [predictions, setPredictions] = useState([]);
-  const [error, setError] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
   const [initialPrompt, setInitialPrompt] = useState("");
+  const { handleSubmit, events, predictions, error, isProcessing } = useSubmitHandler();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const prompt = e.target.prompt.value;
-
-    setError(null);
-    setIsProcessing(true);
-    setInitialPrompt("");
-
-    const myEvents = [...events, { prompt }];
-    setEvents(myEvents);
-
-    const body = { prompt };
-
-    const response = await fetch("/api/predictions", {
+  const apiCall = async (body) => {
+    return await fetch("/api/predictions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     });
-    const prediction = await response.json();
-
-    if (response.status !== 201) {
-      setError(prediction.detail);
-      return;
-    }
-
-    while (
-      prediction.status !== "succeeded" &&
-      prediction.status !== "failed"
-    ) {
-      await sleep(500);
-      const response = await fetch("/api/predictions/" + prediction.id);
-      prediction = await response.json();
-      if (response.status !== 200) {
-        setError(prediction.detail);
-        return;
-      }
-
-      setEvents(
-        myEvents.concat([
-          { replicate: prediction },
-        ])
-      )
-
-      setPredictions(predictions.concat([prediction]));
-    }
-
-    if (prediction.status === "succeeded") {
-      setEvents(
-        myEvents.concat([
-          { replicate: prediction },
-        ])
-      );
-    }
-
-    setIsProcessing(false);
   };
 
-  const startOver = async (e) => {
-    e.preventDefault();
-    setEvents([]);
-    setError(null);
-    setIsProcessing(false);
-  };
+  // const startOver = async (e) => {
+  //   e.preventDefault();
+  //   setEvents([]);
+  //   setError(null);
+  //   setIsProcessing(false);
+  // };
 
   return (
     <div>
@@ -114,7 +60,7 @@ export default function Home() {
         <PromptForm
           initialPrompt={initialPrompt}
           isFirstPrompt={events.length === 0}
-          onSubmit={handleSubmit}
+          onSubmit={(e) => handleSubmit(e, apiCall)}
           disabled={isProcessing}
         />
 
@@ -124,7 +70,7 @@ export default function Home() {
 
         <Footer
           events={events}
-          startOver={startOver}
+          // startOver={startOver}
         />
       </main>
     </div>
